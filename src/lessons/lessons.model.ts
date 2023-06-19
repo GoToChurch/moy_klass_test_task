@@ -7,7 +7,7 @@ import {ApiProperty} from "@nestjs/swagger";
 
 
 interface LessonCreationAttrs {
-    date: string;
+    date: Date;
     title: string;
     status: number;
 }
@@ -19,9 +19,9 @@ export class Lesson extends Model<Lesson, LessonCreationAttrs> {
     @Column({type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true})
     id: number;
 
-    @ApiProperty({example: "2023-17-05", description: "Дата проведения занятия"})
-    @Column({type: DataType.STRING, allowNull: false})
-    date: string;
+    @ApiProperty({example: new Date("2023-17-05"), description: "Дата проведения занятия"})
+    @Column({type: DataType.DATE, allowNull: false})
+    date: Date;
 
     @ApiProperty({example: "Красивые берега Черного моря", description: "Тема занятия"})
     @Column({type: DataType.STRING, allowNull: false})

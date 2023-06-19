@@ -65,12 +65,14 @@ export class LessonsService {
                 currentDate = DateUtils.addOneDayToDate(currentDate).toJSON().substring(0,10);
             }
         }
+
+        return idsForReturn;
     }
 
     async createLesson(createLessonDto: CreateLessonDto) {
             ValidateUtils.validateDate(createLessonDto.date);
 
-            const lesson = await this.lessonRepository.create(createLessonDto);
+            const lesson = await this.lessonRepository.create({...createLessonDto, date: new Date(createLessonDto.date)});
             await lesson.$set("teachers", []);
             await lesson.$set("students", []);
 
@@ -219,7 +221,7 @@ export class LessonsService {
     }
 
     async editLesson(createLessonDto: CreateLessonDto, id: number) {
-        await this.lessonRepository.update({...createLessonDto}, {
+        await this.lessonRepository.update({...createLessonDto, date: new Date(createLessonDto.date)}, {
             where: {
                 id
             }

@@ -6,10 +6,6 @@ import {ApiProperty} from "@nestjs/swagger";
 
 @Table({tableName: "lesson_teachers", createdAt: false, updatedAt: false})
 export class LessonTeachers extends Model<LessonTeachers> {
-    @ApiProperty({example: 1, description: "id записи"})
-    @Column({type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true})
-    id: number;
-
     @ApiProperty({example: 2, description: "id занятия"})
     @ForeignKey(() => Lesson)
     @Column({type: DataType.INTEGER})

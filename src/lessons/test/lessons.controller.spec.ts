@@ -25,7 +25,7 @@ describe('Тесты для методов из ТЗ', () => {
     await app.init();
 
     mockTeacher = {
-      name: "Teacher №",
+      name: "№",
     }
 
     for (let i = 1; i < 6; i++) {
