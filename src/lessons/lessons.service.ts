@@ -1,4 +1,4 @@
-import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {InjectModel} from "@nestjs/sequelize";
 import {Lesson} from "./lessons.model";
 import {CreateLessonDto} from "./dto/create_lesson.dto";
@@ -230,18 +230,10 @@ export class LessonsService {
         return this.getLessonById(id);
     }
 
-    async deleteLessonById(id: number) {
+    async deleteLesson(id: number) {
         return await this.lessonRepository.destroy({
             where: {
                 id
-            }
-        });
-    }
-
-    async deleteLessonByTitle(title: string) {
-        return await this.lessonRepository.destroy({
-            where: {
-                title
             }
         });
     }

@@ -6,6 +6,7 @@ import {Lesson} from "./lessons.model";
 import {StudentsModule} from "../students/students.module";
 import {TeachersModule} from "../teachers/teachers.module";
 
+
 @Module({
   imports: [
       SequelizeModule.forFeature([Lesson]),

@@ -24,23 +24,8 @@ describe('Тесты для методов из ТЗ', () => {
     app.useGlobalPipes(new ValidationPipe())
     await app.init();
 
-    mockTeacher = {
-      name: "№",
-    }
-
-    for (let i = 1; i < 6; i++) {
-      mockTeacher.name += i
-      const teacher = await request(app.getHttpServer())
-          .post(`/teachers/`)
-          .send(mockTeacher)
-          .expect(201)
-
-      ids.push(teacher.body.id);
-    }
-
-    const randomNumber = Math.floor(Math.random() * ids.length);
     mockLessonsLessonCounts = {
-      teacherIds: [ids[randomNumber]],
+      teacherIds: [1, 2],
       title: "Theme",
       days: [1, 5, 0],
       firstDate: "2022-05-31",
@@ -48,7 +33,7 @@ describe('Тесты для методов из ТЗ', () => {
     }
 
     mockLessonsLastDate = {
-      teacherIds: [ids[randomNumber]],
+      teacherIds: [1, 2],
       title: "Theme",
       days: [1, 5, 0],
       firstDate: "2022-05-31",
@@ -131,17 +116,5 @@ describe('Тесты для методов из ТЗ', () => {
     let lessons = await request(app.getHttpServer())
         .get(`/?teachersIds=aaa`)
         .expect(400)
-  })
-
-  afterAll(async () => {
-    for (const id of ids) {
-      await request(app.getHttpServer())
-          .delete(`/teachers/${id}`)
-          .expect(200);
-    }
-
-    await request(app.getHttpServer())
-        .delete(`/lesson/delete/byTitle/${mockLessonsLessonCounts.title}`)
-        .expect(200);
   })
 })

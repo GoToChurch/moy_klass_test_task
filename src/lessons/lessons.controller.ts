@@ -71,17 +71,9 @@ export class LessonsController {
     @ApiOperation({summary: "Удаление занятия по id"})
     @ApiResponse({status: 200})
     @ApiParam({name: "id", example: 1})
-    @Delete("lesson/delete/byId/:id")
+    @Delete("lesson/:id")
     deleteById(@Param("id") id: any) {
-        return this.lessonsService.deleteLessonById(id);
-    }
-
-    @ApiOperation({summary: "Удаление занятия по title"})
-    @ApiResponse({status: 200})
-    @ApiParam({name: "title", example: "Тема занятия"})
-    @Delete("lesson/delete/byTitle/:title")
-    deleteByTitle(@Param("title") title: any) {
-        return this.lessonsService.deleteLessonByTitle(title);
+        return this.lessonsService.deleteLesson(id);
     }
 
     @ApiOperation({summary: "Добавление учителя занятию"})
