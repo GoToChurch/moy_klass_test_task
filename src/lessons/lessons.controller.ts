@@ -46,7 +46,7 @@ export class LessonsController {
     @ApiResponse({status: 200, type: [Lesson]})
     @Get()
     getAll(@Query() query) {
-        return this.lessonsService.getLessons(query.date, query.status, query.teachersIds, query.studentsCount,
+        return this.lessonsService.getLessons(query.date, query.status, query.teacherIds, query.studentsCount,
             query.page, query.lessonsPerPage);
     }
 

@@ -47,7 +47,7 @@ export class LessonsService {
             let createdLessonsCount = 0;
 
             outerloop:
-            while (!DateUtils.checkIfDatesAreEqual(currentDate, createLessonsDto.lastDate)) {
+            while (!DateUtils.checkIfDatesAreEqual(currentDate, DateUtils.addOneDayToDate(createLessonsDto.lastDate))) {
                 if (DateUtils.checkIfMoreThanYearDifference(createLessonsDto.firstDate, currentDate)) {
                     break;
                 }
@@ -101,7 +101,7 @@ export class LessonsService {
         return lesson;
     }
 
-    async getLessons(date?, status?, teachersIds?, studentsCount?, page?, lessonsPerPage= 5) {
+    async getLessons(date?, status?, teacherIds?, studentsCount?, page?, lessonsPerPage= 5) {
         const firstElement = page ? page * lessonsPerPage - lessonsPerPage : 0;
         let firstDate = new Date("1400-01-01");
         let secondDate = new Date("3000-01-01");
@@ -109,12 +109,17 @@ export class LessonsService {
         let secondStatus = 1;
         let firstStudentCount = 0;
         let secondStudentCount = Number.MAX_VALUE;
+        let teachersWhere = null;
 
-        if (teachersIds) {
-            ValidateUtils.validateTeachersIds(teachersIds)
+        if (teacherIds) {
+            ValidateUtils.validateTeachersIds(teacherIds);
+            teachersWhere = {
+                id: {
+                    [Op.in]: teacherIds
+                }
+            }
         }
-        teachersIds = teachersIds ? teachersIds.split(",") : await this.teacherService.getAllTeachersIds();
-
+        teacherIds = teacherIds ? teacherIds.split(",") : await this.teacherService.getAllTeachersIds();
         if (date) {
             ValidateUtils.validateDate(date)
 
@@ -128,6 +133,7 @@ export class LessonsService {
         }
 
         if (status) {
+            ValidateUtils.validateStatus(status);
             firstStatus = secondStatus = status;
         }
 
@@ -152,11 +158,7 @@ export class LessonsService {
                 {
                     model: Teacher,
                     through: { attributes: [] },
-                    where: {
-                        id: {
-                            [Op.in]: teachersIds
-                        }
-                    },
+                    where: teachersWhere
                 },
                 {
                     model: Student,

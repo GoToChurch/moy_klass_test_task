@@ -33,6 +33,13 @@ export class ValidateUtils {
         }
     }
 
+    static validateStatus(status) {
+        if (status !== 1 || status !== 0) {
+            throw new HttpException("Статус может быть равен либо 0, либо 1 ",
+                HttpStatus.BAD_REQUEST);
+        }
+    }
+
     static validateStudentsCountNumber(studentsCount) {
         if (!isFinite(studentsCount)) {
             throw new HttpException("Количество учеников должно быть числом",
